@@ -3,6 +3,7 @@ import sys
 hex_letters = ["a", "b", "c", "d", "e", "f"]
 cmd_args = sys.argv
 
+
 # Functions:
 
 
@@ -59,7 +60,6 @@ def calculate_ipv4(starting_ip, ending_ip):
         diff = int(ending_ip[n]) - int(starting_ip[n])
         ip_count *= limit
         ip_count += diff
-    print(ip_count)
     return ip_count
 
 def calculate_ipv6(starting_ip, ending_ip):
@@ -74,12 +74,12 @@ def calculate_ipv6(starting_ip, ending_ip):
     return ip_count
 
 # Inputs
-if len(cmd_args) == 3:
+if len(cmd_args) == 4:
     ip_format = cmd_args[1].lower()
     first_ip = cmd_args[2].lower()
     second_ip = cmd_args[3].lower()
 else:
-    ip_format = input("Enter 'ipv4' or 'ipv6': ").lower()
+    ip_format = input("Wrong count of variables, try again one by one. \nEnter 'ipv4' or 'ipv6': ").lower()
     first_ip = input("Enter starting IP: ").lower()
     second_ip = input("Enter ending IP: ").lower()
 count = 0
