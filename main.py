@@ -2,22 +2,13 @@ import sys
 
 hex_letters = ["a", "b", "c", "d", "e", "f"]
 cmd_args = sys.argv
-if len(cmd_args) == 3:
-    ip_format = cmd_args[1].lower()
-    first_ip = cmd_args[2].lower()
-    second_ip = cmd_args[3].lower()
-else:
-    ip_format = input("Enter 'ipv4' or 'ipv6': ").lower()
-    first_ip = input("Enter starting IP: ").lower()
-    second_ip = input("Enter ending IP: ").lower()
-count = 0
 
 # Functions:
 
 
 def validate_ipv4(ip_num_list):
     """ Validates ipv4 by the rules: form "x1.x2.x3.x4" where 0 <= xi <= 255 and xi cannot contain leading zeros.
-    Returns valid True or error messages."""
+    IP provided as list items. Returns valid True or False."""
     if len(ip_num_list) == 4:
         correct_n = 0
         for n in ip_num_list:
@@ -40,7 +31,7 @@ def validate_ipv4(ip_num_list):
 
 def validate_ipv6(ip_num_list):
     """ Validates ipv6 by the rules: form "x1:x2:x3:x4:x5:x6:x7:x8" where 1 <= xi.length <= 4 xi is a hexadecimal string
-     which may contain digits, lowercase and upper-case letters ('a' to 'f').Returns valid True or error messages."""
+     which may contain digits, lowercase and upper-case letters ('a' to 'f'). IP provided as list items. Returns valid True or False."""
     if len(ip_num_list) == 8:
         correct_n = 0
         for n in ip_num_list:
@@ -60,9 +51,9 @@ def validate_ipv6(ip_num_list):
 
 
 def calculate_ipv4(starting_ip, ending_ip):
-    """Return IP's count in range, giving IP type - 'ipv4' or 'ipv6', two IP addresses and divider - '.' or ':'"""
+    """Returns IP's count in range, giving two IPv4 addresses divided to list items."""
     ip_count = 0
-    # limit - decimal numbers in one fragment including 0.
+    # limit - decimal numbers in one ip fragment including 0.
     limit = int("11111111", 2) + 1
     for n in range(4):
         diff = int(ending_ip[n]) - int(starting_ip[n])
@@ -72,8 +63,9 @@ def calculate_ipv4(starting_ip, ending_ip):
     return ip_count
 
 def calculate_ipv6(starting_ip, ending_ip):
+    """Returns IP's count in range, giving two IPv6 addresses divided to list items."""
     ip_count = 0
-    # limit - hexadecimal numbers in one fragment including 0.
+    # limit - hexadecimal numbers in one ip fragment including 0.
     limit = int("ffff", 16) + 1
     for n in range(8):
         diff = int(ending_ip[n], 16) - int(starting_ip[n], 16)
@@ -81,7 +73,20 @@ def calculate_ipv6(starting_ip, ending_ip):
         ip_count += diff
     return ip_count
 
-if ip_format  == 'ipv4':
+# Inputs
+if len(cmd_args) == 3:
+    ip_format = cmd_args[1].lower()
+    first_ip = cmd_args[2].lower()
+    second_ip = cmd_args[3].lower()
+else:
+    ip_format = input("Enter 'ipv4' or 'ipv6': ").lower()
+    first_ip = input("Enter starting IP: ").lower()
+    second_ip = input("Enter ending IP: ").lower()
+count = 0
+
+
+# IP format validation and calculation
+if ip_format == 'ipv4':
     if validate_ipv4(first_ip.split(".")) and validate_ipv4(second_ip.split(".")):
         count = calculate_ipv4(first_ip.split("."), second_ip.split("."))
     else:
@@ -98,12 +103,12 @@ else:
     print("Enter IPv4 or IPv6, please try again. ")
     exit()
 
-# 4. Check if ending address is greater than starting and display calculation or error message.
+# Check if ending address is greater than starting and display calculation or error message.
 
 if count > 0:
     print(count)
 else:
-    print(f"The ending address must be greater than the starting one. Please try again.")
+    print("The ending address must be greater than the starting one. Please try again.")
 
 # Documentation.
 '''A valid IPv4 address is an IP in the form "x1.x2.x3.x4" where 0 <= xi <= 255 and xi cannot contain leading zeros. 
